@@ -17,14 +17,29 @@ public class BookController {
         this.bookService = personService;
     }
 
-//    @PostMapping
-//    public void addBook(int index, String author, String title) {
-//        bookService.addBook(index, author, title);
-//    }
+    @PostMapping
+    public void addBook(@RequestBody Book book) {
+        bookService.addBook(book);
+    }
 
-    //@RequestMapping(method = RequestMethod.GET)
     @GetMapping
     public List<Book> getAllBooks() {
         return bookService.getAllBooks();
+    }
+
+    @GetMapping(path = "{index}")
+    public Book getBookByIndex(@PathVariable("index") int index) {
+        return bookService.getBookByIndex(index)
+                .orElse(null); //e.g. 404 or msg or ...
+    }
+
+    @DeleteMapping(path = "{index}")
+    public void deleteBookByIndex(@PathVariable("index") int index) {
+        bookService.deleteBookByIndex(index);
+    }
+
+    @PutMapping(path = "{index}")
+    public void updateBookByIndex(@PathVariable("index") int index, @RequestBody Book book) {
+        bookService.updateBookByIndex(index,book);
     }
 }
